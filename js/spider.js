@@ -5,6 +5,7 @@ console.log("Spider init");
 
 let client = new (require("discord.js").Client)();
 let { remote } = require("electron");
+let color = require("./js/color.js");
 let $ = require("jquery");
 let spiderState = {
 	guild: null,
@@ -81,7 +82,8 @@ function colorize(str) {
 }
 
 function formatMessage(message) {
-	return `{color=${message.member.displayHexColor.toLowerCase()}}<${message.author.tag}>{/color} ${message.cleanContent}`;
+	let nordColor = `#${color.toNordPalette(message.member.displayHexColor, true)}`;
+	return `{color=${nordColor}}<${message.author.tag}>{/color} ${message.cleanContent}`;
 }
 
 function stdout(str) {

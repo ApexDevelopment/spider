@@ -19,6 +19,8 @@
   "homepage": "https://github.com/ApexDevelopment/spider#readme",
   "dependencies": {
     "bufferutil": "^4.0.1",
+    "color-convert": "^2.0.1",
+    "delta-e": "0.0.7",
     "discord.js": "^12.2.0",
     "erlpack": "github:discordapp/erlpack",
     "jquery": "^3.5.1",
