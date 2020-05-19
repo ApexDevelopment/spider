@@ -5,6 +5,18 @@
 	overflow: hidden;
 }*/
 
+::selection {
+	background: #434c5e;
+}
+
+::-moz-selection {
+	background: #434c5e;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -17,11 +29,12 @@ body {
 }
 
 #toolbar {
+	background: #3b4252;
 	-webkit-app-region: drag;
 	position: fixed;
 	top: 0;
 	width: 100%;
-	margin: 4px;
+	padding: 4px;
 	/*border-radius: 12px;*/
 }
 
@@ -36,13 +49,106 @@ body {
 }
 
 #close {
-	background-color: #bf616a;
+	background: #bf616a;
 }
 
 #max {
-	background-color: #ebcb8b;
+	background: #ebcb8b;
 }
 
 #min {
-	background-color: #a3be8c;
+	background: #a3be8c;
+}
+
+#terminal {
+	font-family: 'Inconsolata', monospace;
+	color: #eceff4;
+	-webkit-font-smoothing: none;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	line-height: 1.2em;
+	margin-top: 26px;
+	padding: 4px;
+}
+
+.inputline {
+	position: absolute;
+	left: -9999px;
+	top: -9999px;
+	width: 0px;
+	height: 0;
+	overflow: hidden;
+	padding: 0;
+	opacity: 0;
+}
+
+.blinken {
+	width: 0.1em;
+	height: 1.1em;
+	line-height: 1.2em;
+	background: #d8dee9;
+	position: absolute;
+	animation: flash 1s infinite;
+}
+
+.light {
+	font-weight: 300;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+.extrabold {
+	font-weight: 800;
+}
+
+.red {
+	color: #bf616a;
+}
+
+.orange {
+	color: #d08770;
+}
+
+.yellow {
+	color: #ebcb8b;
+}
+
+.green {
+	color: #a3be8c;
+}
+
+.lightblue {
+	color: #88c0d0;
+}
+
+.blue {
+	color: #81a1c1;
+}
+
+.darkblue {
+	color: #5e81ac;
+}
+
+.violet {
+	color: #b48ead;
+}
+
+@keyframes flash {
+	0% {
+		visibility: visible;
+	}
+	49% {
+		visibility: visible;
+	}
+	50% {
+		visibility: hidden;
+	}
+	99% {
+		visibility: hidden;
+	}
+	100% {
+		visibility: visible;
+	}
 }
