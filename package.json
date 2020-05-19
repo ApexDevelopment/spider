@@ -1,0 +1,31 @@
+{
+  "name": "spider",
+  "version": "1.0.0",
+  "description": "A Discord bot admin tool",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ApexDevelopment/spider.git"
+  },
+  "author": "Micah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ApexDevelopment/spider/issues"
+  },
+  "homepage": "https://github.com/ApexDevelopment/spider#readme",
+  "dependencies": {
+    "bufferutil": "^4.0.1",
+    "discord.js": "^12.2.0",
+    "erlpack": "github:discordapp/erlpack",
+    "jquery": "^3.5.1",
+    "utf-8-validate": "^5.0.2",
+    "xterm": "^4.6.0",
+    "zlib-sync": "^0.1.6"
+  },
+  "devDependencies": {
+    "electron": "^8.3.0"
+  }
+}
