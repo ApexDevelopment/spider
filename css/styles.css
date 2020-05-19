@@ -1,4 +1,48 @@
+/*@import "../node_modules/nord/src/nord.css";*/
+
+/*html, body {
+	height: 100%;
+	overflow: hidden;
+}*/
+
 body {
 	margin: 0;
 	padding: 0;
+}
+
+#app {
+	/*height: 100%;*/
+	background: #2e3440;
+	border-radius: 12px;
+}
+
+#toolbar {
+	-webkit-app-region: drag;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	margin: 4px;
+	/*border-radius: 12px;*/
+}
+
+#toolbar .btn {
+	-webkit-app-region: no-drag;
+	float: left;
+	display: block;
+	width: 14px;
+	height: 14px;
+	border-radius: 7px;
+	margin: 2px;
+}
+
+#close {
+	background-color: #bf616a;
+}
+
+#max {
+	background-color: #ebcb8b;
+}
+
+#min {
+	background-color: #a3be8c;
 }
