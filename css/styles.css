@@ -43,6 +43,10 @@ body {
 	margin: 2px;
 }
 
+#toolbar .btn:hover {
+	opacity: 0.6;
+}
+
 #close {
 	background: #bf616a;
 }
