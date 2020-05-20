@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-	"build-all": "electron-packager . --all --out \"out\"",
-	"build": "electron-packager . --out \"out\""
+	"build-all": "electron-packager . --all --overwrite --out \"out\"",
+	"build": "electron-packager . --overwrite --out \"out\""
   },
   "repository": {
     "type": "git",
