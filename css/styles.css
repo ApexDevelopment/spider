@@ -19,23 +19,30 @@
 
 body {
 	margin: 0;
-	padding: 0;
+	padding: 0;;
 }
 
 #app {
-	/*height: 100%;*/
 	background: #2e3440;
-	border-radius: 12px;
+	/*border-radius: 12px;*/
 }
 
 #toolbar {
-	background: #3b4252;
 	-webkit-app-region: drag;
+	background: #3b4252;
 	position: fixed;
 	top: 0;
 	width: 100%;
 	padding: 4px;
 	/*border-radius: 12px;*/
+}
+
+#toolbar #title {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+	font-family: 'Inconsolata', monospace;
+	color: #eceff4;
 }
 
 #toolbar .btn {
@@ -60,7 +67,7 @@ body {
 	background: #a3be8c;
 }
 
-#terminal {
+.terminal {
 	font-family: 'Inconsolata', monospace;
 	color: #eceff4;
 	-webkit-font-smoothing: none;
