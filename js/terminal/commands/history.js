@@ -19,7 +19,7 @@ module.exports = {
 		}
 
 		let messages = spider.state.textChannel.messages.cache.last(limit);
-		let out = `\nLast ${messages.length} messages:\n`;
+		let out = `Last ${messages.length} messages:\n`;
 
 		for (let message of messages) {
 			out += formatMessage(message) + "\n";

@@ -4,7 +4,7 @@ module.exports = {
 	usage: "",
 	description: "Lists accessible guilds/channels from the current location.",
 	run: function(spider) {
-		let out = "\n";
+		let out = "";
 
 		if (spider.state.guild) {
 			out += "Available channels:\n";
