@@ -4,8 +4,9 @@
   "description": "A Discord bot admin tool",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+	"build-all": "electron-packager . --all --out \"out\"",
+	"build": "electron-packager . --out \"out\""
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "zlib-sync": "^0.1.6"
   },
   "devDependencies": {
-    "electron": "^8.3.0"
+    "electron": "^8.3.0",
+    "electron-packager": "^14.2.1"
   }
 }

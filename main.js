@@ -5,7 +5,7 @@ const nord = require("./js/nord.js");
 
 function createWindow() {
 	let window = new BrowserWindow({
-		backgroundColor: nord.nord0,
+		backgroundColor: "#" + nord.nord0,
 		titleBarStyle: "hidden",
 		title: "Spider",
 		frame: false,

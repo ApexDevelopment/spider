@@ -1,15 +1,4 @@
-/*@import "../node_modules/nord/src/nord.css";*/
-
-/*html, body {
-	height: 100%;
-	overflow: hidden;
-}*/
-
-::selection {
-	background: #434c5e;
-}
-
-::-moz-selection {
+::selection, ::-moz-selection {
 	background: #434c5e;
 }
 
