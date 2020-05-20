@@ -19,7 +19,7 @@
 
 body {
 	margin: 0;
-	padding: 0;;
+	padding: 0;
 }
 
 #app {
@@ -29,12 +29,11 @@ body {
 
 #toolbar {
 	-webkit-app-region: drag;
-	background: #3b4252;
+	background: #3b4252; /* nord1 */
 	position: fixed;
 	top: 0;
 	width: 100%;
 	padding: 4px;
-	/*border-radius: 12px;*/
 }
 
 #toolbar #title {
