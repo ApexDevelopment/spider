@@ -2,7 +2,6 @@
 /* global document, navigator */
 
 let Client = require("discord.js").Client;
-let $ = require("jquery");
 let { formatMessage } = require("../format");
 
 function isInputKey(code) {
@@ -34,10 +33,6 @@ class Terminal {
 
 		require("fs").readdirSync(commandPath).forEach((file) => {
 			this.commands[file.split(".")[0]] = require("./commands/" + file);
-		});
-
-		$(parent).click(() => {
-			this.focus();
 		});
 
 		this.input.addEventListener("keydown", (e) => {
