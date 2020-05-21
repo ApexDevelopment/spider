@@ -2,7 +2,7 @@
 /* global document, navigator */
 
 let Client = require("discord.js").Client;
-let { formatMessage } = require("../format");
+let { formatMessage } = require("../format.js");
 
 function isInputKey(code) {
 	return [32, 190, 192, 189, 187, 220, 221, 219, 222, 186, 188, 191].includes(code);
