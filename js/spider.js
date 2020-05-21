@@ -8,6 +8,7 @@ let $ = require("jquery");
 let Terminal = require("./js/terminal");
 let title = $("#title");
 
+// Stoplight buttons' event handlers
 $("#close").click(() => {
 	let window = remote.getCurrentWindow();
 	window.close();
@@ -29,14 +30,21 @@ $("#min").click(() => {
 	window.minimize();
 });
 
-let term = new Terminal(document.getElementById("app"));
+// Create the terminal
+let spider = new Terminal(document.getElementById("app"));
 
-term.client.on("ready", () => {
-	title.text(`Spider [${term.client.user.username}]`);
+// Set the title bar text to display the bot's username
+spider.client.on("ready", () => {
+	title.text(`Spider [${spider.client.user.username}]`);
 });
 
-$().click(() => {
-	term.focus();
+// Make sure the terminal never loses focus
+remote.getCurrentWindow().on("focus", () => {
+	spider.focus();
+});
+
+spider.input.addEventListener("blur", () => {
+	spider.focus();
 });
 
 console.log("Done");
