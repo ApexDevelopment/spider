@@ -1,7 +1,7 @@
 {
 	"name": "spider",
 	"version": "1.0.0",
-	"description": "A Discord bot admin tool",
+	"description": "A Discord bot admin tool.",
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
