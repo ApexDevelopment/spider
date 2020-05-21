@@ -7,7 +7,7 @@ let deltaE = require("delta-e");
 
 module.exports = {
 	// Finds the nearest Nord color to a supplied color.
-	// In text mode, it does not use nord0-nord2 because they would be difficult to read.
+	// In text mode, it does not use nord0-nord3 because they would be difficult to read.
 	toNordPalette: function(hexStr, isText = false) {
 		let labArray = convert.hex.lab(hexStr);
 		let lab = {
@@ -19,13 +19,12 @@ module.exports = {
 		// Delta-E has a max distance of 100.
 		let minDistance = 101;
 		// If for some reason this algorithm fails we fall back to the brightest one.
-		let closestColor = nord.nord6;
-		// Skip nord0-nord2 if we are working with a text foreground color.
-		let i = isText ? 3 : 0;
+		let closestColor = nord[6];
+		// Skip nord0-nord3 if we are working with a text foreground color.
+		let i = isText ? 4 : 0;
 
 		for (i; i <= 15; i++) {
-			const colorName = "nord" + i;
-			let nordHexString = nord[colorName];
+			let nordHexString = nord[i];
 			let nordLabArray = convert.hex.lab(nordHexString);
 			let nordLab = {
 				L: nordLabArray[0],
