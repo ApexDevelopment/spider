@@ -3,6 +3,12 @@
 module.exports = {
 	usage: "<message>",
 	description: "Sends a message in the currently selected channel.",
+	more: [
+		"Self-explanatory. Requires a text channel to be selected."
+	],
+	examples: [
+		"say I am a bot, but I'm being controlled by a human!"
+	],
 	run: function(spider, args) {
 		const message = args.join(" ");
 

@@ -5,6 +5,14 @@ let { formatMessage } = require("../../format");
 module.exports = {
 	usage: "[limit]",
 	description: "Shows the message history of the current channel.",
+	more: [
+		"Bots have limited access to message history. Only cached messages will be shown.",
+		"This means messages that were sent while Spider was running. This is a Discord API security feature.",
+		"{green}limit{/green} is the maximum number of messages that will be shown."
+	],
+	examples: [
+		"history 100"
+	],
 	run: function(spider, args) {
 		let limit = 10;
 

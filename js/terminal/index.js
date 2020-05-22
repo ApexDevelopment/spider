@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 /* global document, navigator */
 
+let path = require("path");
 let Client = require("discord.js").Client;
 let { formatMessage } = require("../format.js");
 
@@ -13,6 +14,7 @@ class Terminal {
 		this.tags = [ "light", "bold", "extrabold", "red", "orange", "yellow", "green", "lightblue", "blue", "darkblue", "violet" ];
 		this.inputBuffer = "";
 		this.outputBuffer = "";
+		this.cursorPos = 0;
 		this.term = document.createElement("div");
 		this.input = document.createElement("textarea");
 		this.term.className = "terminal";
@@ -28,11 +30,12 @@ class Terminal {
 			monitor: []
 		};
 
-		const commandPath = require("path").join(__dirname, "commands");
+		const commandPath = path.join(__dirname, "commands");
 		this.commands = {};
 
-		require("fs").readdirSync(commandPath).forEach((file) => {
-			this.commands[file.split(".")[0]] = require("./commands/" + file);
+		require("fs").readdirSync(commandPath).forEach((entry) => {
+			const cmdName = path.parse(entry).name;
+			this.commands[cmdName] = require(path.join(commandPath, entry));
 		});
 
 		this.input.addEventListener("keydown", (e) => {
@@ -44,7 +47,7 @@ class Terminal {
 		});
 
 		this.client.on("message", (msg) => {
-			if (this.state.monitor.includes(msg.channel.id) || this.state.textChannel.id === msg.channel.id) {
+			if (this.state.monitor.hasOwnProperty(msg.channel.id) || this.state.textChannel.id === msg.channel.id) {
 				this.println(`{green}${msg.guild.name}>${msg.channel.name}{/green} ${formatMessage(msg)}`);
 			}
 		});
@@ -54,7 +57,7 @@ class Terminal {
 
 	get prompt() {
 		let state = this.state;
-		return `/${state.guild ? state.guild.name : ""}${state.textChannel ? ">" + state.textChannel.name : ""}> `;
+		return `<span class="yellow">/${state.guild ? state.guild.name : ""}${state.textChannel ? ">" + state.textChannel.name : ""}></span> `;
 	}
 
 	focus() {
@@ -63,8 +66,8 @@ class Terminal {
 
 	update() {
 		let cursor = "<span class=\"blinken\"></span>";
-		let text = this.outputBuffer + this.prompt + this.inputBuffer;
-		this.term.innerHTML = text + cursor;
+		let text = this.outputBuffer + this.prompt + this.inputBuffer.substring(0, this.cursorPos) + cursor + this.inputBuffer.substring(this.cursorPos, this.inputBuffer.length);
+		this.term.innerHTML = text;
 		document.getElementsByClassName("blinken")[0].scrollIntoView();
 	}
 
@@ -109,8 +112,7 @@ class Terminal {
 
 	dispatch() {
 		let splitLine = this.inputBuffer.split(" ");
-		let cmd = splitLine[0];
-		splitLine.splice(0, 1);
+		let cmd = splitLine.shift();
 
 		this.inputBuffer += "\n";
 		this.outputBuffer += this.prompt + this.inputBuffer;
@@ -130,6 +132,12 @@ class Terminal {
 		}
 	}
 
+	typeAtCursor(text) {
+		this.inputBuffer = this.inputBuffer.substring(0, this.cursorPos) + text + this.inputBuffer.substring(this.cursorPos, this.inputBuffer.length);
+		this.cursorPos += text.length;
+		this.update();
+	}
+
 	handleInput(e) {
 		e.preventDefault();
 
@@ -137,23 +145,41 @@ class Terminal {
 
 		if (e.keyCode >= 48 && e.keyCode <= 90 || isInputKey(e.keyCode)) {
 			if (!e.ctrlKey) {
-				this.inputBuffer += e.key;
+				this.typeAtCursor(e.key);
 			}
 			else if (e.key == "v") {
 				navigator.clipboard.readText().then((text) => {
-					this.inputBuffer += text;
-					this.update();
+					this.typeAtCursor(text);
 				});
 			}
 		}
+		else if (e.keyCode == 37) {
+			// Left arrow
+			if (this.cursorPos > 0) {
+				this.cursorPos--;
+				this.update();
+			}
+		}
+		else if (e.keyCode == 39) {
+			// Right arrow
+			if (this.cursorPos < this.inputBuffer.length) {
+				this.cursorPos++;
+				this.update();
+			}
+		}
 		else if (e.keyCode == 13) {
+			this.cursorPos = 0;
 			this.dispatch();
 		}
 		else if (e.keyCode == 9) {
-			this.inputBuffer += "\t";
+			this.typeAtCursor("\t");
 		}
-		else if (e.key == "Backspace") {
-			this.inputBuffer = this.inputBuffer.substr(0, this.inputBuffer.length - 1);
+		else if (e.key == "Backspace" && this.cursorPos > 0) {
+			this.inputBuffer = this.inputBuffer.substring(0, this.cursorPos - 1) + this.inputBuffer.substring(this.cursorPos, this.inputBuffer.length);
+			this.cursorPos--;
+		}
+		else if (e.key == "Delete" && this.cursorPos < this.inputBuffer.length) {
+			this.inputBuffer = this.inputBuffer.substring(0, this.cursorPos) + this.inputBuffer.substring(this.cursorPos + 1, this.inputBuffer.length);
 		}
 
 		this.update();

@@ -3,6 +3,10 @@
 module.exports = {
 	usage: "",
 	description: "Lists accessible guilds/channels from the current location.",
+	more: [
+		"When nothing is selected, this will list cached guilds.",
+		"When a guild is selected, it will list cached channels in that guild."
+	],
 	run: function(spider) {
 		let out = "";
 
