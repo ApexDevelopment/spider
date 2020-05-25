@@ -3,6 +3,16 @@
 module.exports = {
 	usage: "<location>",
 	description: "Changes into a new guild or location. Works sort of like cd in a terminal.",
+	more: [
+		"This command does not support full absolute paths. If you are currently in a channel, for example, you cannot {green}cd /Other Guild{/green}. This may be implemented later.",
+		"Running {green}cd /{/green} will deselect any currently selected guild or channel. Running {green}cd ..{/green} will deselect the current channel, or if none is selected, the current guild."
+	],
+	examples: [
+		"cd /",
+		"cd My Guild",
+		"cd general",
+		"cd .."
+	],
 	run: function(spider, args) {
 		if (args.length == 0) {
 			spider.println("{orange}You must specify a location.{/orange}");
