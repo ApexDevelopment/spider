@@ -39,10 +39,10 @@ module.exports = {
 			chain = chain.join(" ");
 
 			if (cmd) {
-				out += `Usage: ${chain} ${cmd.usage}\nDescription: ${cmd.description}\nMore information:\n${cmd.more.join("\n")}\n`;
+				out += `{green}Usage:{/green} ${chain} ${cmd.usage}\n{green}Description:{/green} ${cmd.description}\n{green}More information:{/green}\n${cmd.more.join("\n")}\n`;
 
 				if (cmd.usage != "") {
-					out += `\nExamples:\n${cmd.examples.join("\n")}\n`;
+					out += `\n{green}Examples:{/green}\n${cmd.examples.join("\n")}\n`;
 				}
 			}
 			else {
