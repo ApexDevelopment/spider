@@ -27,10 +27,12 @@ module.exports = {
 		}
 
 		let messages = spider.state.textChannel.messages.cache.last(limit);
+		let lastUser = null;
 		let out = `Last ${messages.length} messages:\n`;
 
 		for (let message of messages) {
-			out += formatMessage(message) + "\n";
+			out += formatMessage(message, message.author.id != lastUser) + "\n";
+			lastUser = message.author.id;
 		}
 
 		spider.println(out);
