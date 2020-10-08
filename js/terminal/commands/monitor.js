@@ -1,5 +1,6 @@
 /* jshint esversion: 6 */
 
+// TODO: List what channels are being monitored.
 module.exports = {
 	usage: "[channel]",
 	description: "Starts monitoring for messages in a channel.",
@@ -15,41 +16,53 @@ module.exports = {
 	],
 	run: function(spider, args) {
 		let monitor = spider.state.monitor;
+		let guild = spider.state.guild;
+		let channel = null;
 
 		if (args.length == 0) {
-			if (!spider.state.textChannel) {
+			// Monitor currently selected channel
+			channel = spider.state.textChannel;
+
+			if (!channel) {
 				spider.println("{orange}You must select a text channel.{/orange}");
 				return;
 			}
-
-			if (monitor.hasOwnProperty(spider.state.textChannel.id)) {
-				delete monitor[spider.state.textChannel.id];
-				spider.println(`Stopped monitoring {green}${spider.state.guild.name}>${spider.state.textChannel.name}{/green}.`);
-			}
-			else {
-				monitor[spider.state.textChannel.id] = spider.state.textChannel;
-				spider.println(`Now monitoring {green}${spider.state.guild.name}>${spider.state.textChannel.name}{/green}.`);
-			}
 		}
 		else {
-			const loc = args.join(" ");
-			let channel = spider.client.channels.resolve(loc);
+			// Search in guild for a channel to monitor
+			if (!guild) {
+				spider.println("{orange}You must select a server to search in first.{/orange}");
+				return;
+			}
 
-			if (!channel && spider.state.guild.channels) {
-				channel = spider.state.guild.channels.find(channel => channel.name.startsWith(loc));
+			const loc = args.join(" ");
+			channel = spider.client.channels.resolve(loc);
+
+			if (!channel && guild.channels) {
+				channel = guild.channels.cache.find(channel => channel.name.startsWith(loc));
 			}
 
 			if (!channel) {
 				spider.println(`{orange}No channel found with name or ID '${loc}'{/orange}`);
+				return;
 			}
-			else if (monitor.hasOwnProperty(channel.id)) {
-				delete monitor[channel.id];
-				spider.println(`Stopped monitoring {green}${channel.name}{/green}.`);
-			}
-			else {
-				monitor[channel.id] = channel;
-				spider.println(`Now monitoring {green}${channel.name}{/green}.`);
-			}
+		}
+
+		if (monitor.includes(channel.id)) {
+			monitor.splice(monitor.indexOf(channel.id), 1);
+			spider.println(`Stopped monitoring {green}${guild.name}>${channel.name}{/green}.`);
+		}
+		else {
+			monitor.push(channel.id);
+
+			spider.storage.set(spider.client.user.id.toString(), {monitor}, (err) => {
+				if (err) {
+					console.log(err);
+					spider.println("{orange}Failed to save monitored channels to storage.{/orange}");
+				}
+			});
+			
+			spider.println(`Now monitoring {green}${guild.name}>${channel.name}{/green}.`);
 		}
 	}
 };

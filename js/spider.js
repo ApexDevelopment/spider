@@ -3,6 +3,7 @@
 
 console.log("Spider init");
 
+const storage = require("electron-json-storage");
 let { remote } = require("electron");
 let $ = require("jquery");
 let Terminal = require("./js/terminal");
@@ -31,7 +32,7 @@ $("#min").click(() => {
 });
 
 // Create the terminal
-let spider = new Terminal(document.getElementById("app"));
+let spider = new Terminal(storage, document.getElementById("app"));
 
 // Set the title bar text to display the bot's username
 spider.client.on("ready", () => {
