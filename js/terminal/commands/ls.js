@@ -13,8 +13,24 @@ module.exports = {
 		if (spider.state.guild) {
 			out += "Available channels:\n";
 
-			spider.state.guild.channels.cache.forEach((channel, id) => {
+			let copy = spider.state.guild.channels.cache.clone();
+			let [categories, loose] = copy.partition(channel => channel.type == "category");
+			loose.sweep(channel => channel.parent != null && channel.parent != undefined);
+
+			categories.sort((channelA, channelB) => channelA.name.localeCompare(channelB.name));
+			loose.sort((channelA, channelB) => channelA.name.localeCompare(channelB.name));
+
+			out += `{lightblue}<NO CATEGORY>{/lightblue}\n`;
+			
+			loose.each((channel, id) => {
 				out += `${channel.name} {green}[${id}]{/green}\n`;
+			});
+			
+			categories.each((cat) => {
+				out += `\n{lightblue}<${cat.name}>{/lightblue}\n`;
+				cat.children.each((channel, id) => {
+					out += `${channel.name} {green}[${id}]{/green}\n`;
+				});
 			});
 		}
 		else {
