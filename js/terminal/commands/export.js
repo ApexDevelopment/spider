@@ -7,7 +7,8 @@ module.exports = {
 	usage: "<path>",
 	description: "Saves the current channel's message history to a file, appending if the file exists.",
 	more: [
-		"Currently this behaves sort of like piping the output of the {green}history{/green} command to a file."
+		"Currently this behaves sort of like piping the output of the {green}history{/green} command to a file.",
+		"Remember, this {orange}appends{/orange} to existing files."
 	],
 	examples: [
 		"export C:\\Users\\Apex\\Desktop\\log.txt"
