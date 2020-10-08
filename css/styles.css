@@ -59,6 +59,10 @@ body {
 	background: #a3be8c;
 }
 
+a {
+	color: #81a1c1; /* nord9 */
+}
+
 .terminal {
 	font-family: 'Inconsolata', monospace;
 	color: #eceff4; /* nord6 */
