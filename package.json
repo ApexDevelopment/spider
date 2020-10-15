@@ -5,8 +5,8 @@
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
-		"build-all": "electron-packager . --all --overwrite --out \"out\"",
-		"build": "electron-packager . --overwrite --out \"out\""
+		"build-all": "electron-packager . Spider --all --overwrite --out \"out\"",
+		"build": "electron-packager . Spider --overwrite --out \"out\""
 	},
 	"repository": {
 		"type": "git",
@@ -25,6 +25,7 @@
 		"discord.js": "^12.2.0",
 		"electron-json-storage": "^4.2.0",
 		"erlpack": "github:discordapp/erlpack",
+		"jquery": "^3.5.1",
 		"open": "^7.3.0",
 		"utf-8-validate": "^5.0.2",
 		"zlib-sync": "^0.1.6"
