@@ -14,3 +14,4 @@ Ensure all dependencies are installed and run ``npm run build`` to build it for 
 - [ ] Add commands for monitoring other events such as users going online, message edits, etc (maybe modify ``monitor``)
 - [ ] Add command for checking who's lurking, using status and typing indicators
 - [ ] Add command similar to monitor except it logs to a file instead of the console
+- [ ] Add auto export/autolog feature
