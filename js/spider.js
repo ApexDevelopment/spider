@@ -4,31 +4,22 @@
 console.log("Spider init");
 
 const storage = require("electron-json-storage");
-let { remote } = require("electron");
+let { ipcRenderer } = require("electron");
 let $ = require("jquery");
 let Terminal = require("./js/terminal");
 let title = $("#title");
 
 // Stoplight buttons' event handlers
 $("#close").click(() => {
-	let window = remote.getCurrentWindow();
-	window.close();
+	ipcRenderer.send("request-close");
 });
 
 $("#max").click(() => {
-	let window = remote.getCurrentWindow();
-
-	if (!window.isMaximized()) {
-		window.maximize();
-	}
-	else {
-		window.unmaximize();
-	}
+	ipcRenderer.send("request-maximize");
 });
 
 $("#min").click(() => {
-	let window = remote.getCurrentWindow();
-	window.minimize();
+	ipcRenderer.send("request-minimize");
 });
 
 // Create the terminal
@@ -40,7 +31,7 @@ spider.client.on("ready", () => {
 });
 
 // Make sure the terminal never loses focus
-remote.getCurrentWindow().on("focus", () => {
+ipcRenderer.on("focus", () => {
 	spider.focus();
 });
 

@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let { remote } = require("electron");
+let { ipcRenderer } = require("electron");
 
 module.exports = {
 	usage: "",
@@ -10,6 +10,6 @@ module.exports = {
 	],
 	run: function(spider) {
 		spider.client.destroy();
-		remote.getCurrentWindow().close();
+		ipcRenderer.send("request-close");
 	}
 };

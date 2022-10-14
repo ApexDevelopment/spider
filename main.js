@@ -1,8 +1,14 @@
 /* jshint esversion: 6 */
 
 const open = require("open");
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const nord = require("./js/nord.js");
+
+function appExit() {
+	if (process.platform !== "darwin") {
+		app.quit();
+	}
+}
 
 function createWindow() {
 	let window = new BrowserWindow({
@@ -13,31 +19,58 @@ function createWindow() {
 		width: 800,
 		height: 600,
 		webPreferences: {
+			contextIsolation: false,
 			nodeIntegration: true
 		}
 	});
 
-	window.webContents.on("new-window", (e, url) => {
-		e.preventDefault();
+	window.webContents.setWindowOpenHandler(({ url }) => {
 		open(url);
+		return { action: "deny" };
+	});
+
+	window.webContents.on("focus", () => {
+		window.webContents.send("focus");
+	});
+
+	ipcMain.on("request-close", (event) => {
+		const window = BrowserWindow.fromWebContents(event.sender);
+		window.close();
+	});
+
+	ipcMain.on("request-minimize", (event) => {
+		const window = BrowserWindow.fromWebContents(event.sender);
+		window.minimize();
+	});
+
+	ipcMain.on("request-maximize", (event) => {
+		const window = BrowserWindow.fromWebContents(event.sender);
+		if (!window.isMaximized()) {
+			window.maximize();
+		}
+		else {
+			window.unmaximize();
+		}
+	});
+
+	ipcMain.on("request-devtools", (event) => {
+		const window = BrowserWindow.fromWebContents(event.sender);
+		window.webContents.toggleDevTools();
 	});
 
 	window.loadFile("index.html");
 }
 
 /**
- * This app will never navigate away from index.html, so it's safe to disable
- * this override even though Spider relies on non-context-aware native modules.
- * It won't have any effect on this app, but I like flipping switches and
- * pressing buttons so sue me
+ * Discord.js is non-context-aware.
+ * This means that we need to disable the renderer process reuse
+ * optimization from Chromium that Electron uses.
+ * We shouldn't be using this optimization anyway, since we never
+ * navigate to a new page in the renderer process.
  */
-app.allowRendererProcessReuse = true;
+app.allowRendererProcessReuse = false;
 
-app.on("window-all-closed", () => {
-	if (process.platform !== "darwin") {
-		app.quit();
-	}
-});
+app.on("window-all-closed", appExit);
 
 app.on("activate", () => {
 	if (BrowserWindow.getAllWindows().length === 0) {

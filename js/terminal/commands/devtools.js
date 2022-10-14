@@ -1,5 +1,7 @@
 /* jshint esversion: 6 */
 
+let { ipcRenderer } = require("electron");
+
 module.exports = {
 	usage: "",
 	description: "Opens the Chrome Developer Tools for debugging.",
@@ -7,6 +9,6 @@ module.exports = {
 		"Self-explanatory. Good for tracking down errors in my code."
 	],
 	run: function() {
-		require("electron").remote.getCurrentWindow().toggleDevTools();
+		ipcRenderer.send("request-devtools");
 	}
 };

@@ -25,6 +25,13 @@ class Terminal {
 		this.focus();
 		this.client = new Client();
 
+		/**
+		 * Electron has deprecated the remote module, which breaks electron-json-storage.
+		 * This is a workaround to get the data directory.
+		 */
+		let dataDir = path.join(navigator.userAgent.indexOf("Electron") !== -1 ? process.env.APPDATA : process.env.HOME, ".spider");
+		storage.setDataPath(dataDir);
+
 		this.state = {
 			guild: null,
 			textChannel: null,
