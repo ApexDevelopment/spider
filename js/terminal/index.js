@@ -23,7 +23,17 @@ class Terminal {
 		parent.appendChild(this.term);
 		parent.appendChild(this.input);
 		this.focus();
-		this.client = new Client();
+		this.client = new Client({ intents: [
+				"GUILDS",
+				"GUILD_BANS",
+				"GUILD_MESSAGES",
+				"GUILD_MESSAGE_REACTIONS",
+				"GUILD_MESSAGE_TYPING",
+				"DIRECT_MESSAGES",
+				"DIRECT_MESSAGE_REACTIONS",
+				"DIRECT_MESSAGE_TYPING"
+			]
+		});
 
 		/**
 		 * Electron has deprecated the remote module, which breaks electron-json-storage.
@@ -74,7 +84,7 @@ class Terminal {
 			});
 		});
 		
-		this.client.on("message", (msg) => {
+		this.client.on("messageCreate", (msg) => {
 			if (this.state.monitor.includes(msg.channel.id) || (this.state.textChannel && this.state.textChannel.id === msg.channel.id)) {
 				const showMeta = msg.author.id !== this.lastUser || msg.channel.id !== this.lastChannel;
 				let line = formatMessage(msg, showMeta);

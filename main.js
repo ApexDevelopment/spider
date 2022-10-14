@@ -61,15 +61,6 @@ function createWindow() {
 	window.loadFile("index.html");
 }
 
-/**
- * Discord.js is non-context-aware.
- * This means that we need to disable the renderer process reuse
- * optimization from Chromium that Electron uses.
- * We shouldn't be using this optimization anyway, since we never
- * navigate to a new page in the renderer process.
- */
-app.allowRendererProcessReuse = false;
-
 app.on("window-all-closed", appExit);
 
 app.on("activate", () => {
