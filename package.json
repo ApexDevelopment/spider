@@ -23,7 +23,7 @@
 		"color-convert": "^2.0.1",
 		"delta-e": "0.0.7",
 		"discord.js": "^12.2.0",
-		"electron-json-storage": "^4.2.0",
+		"electron-json-storage": "^4.6.0",
 		"erlpack": "github:discordapp/erlpack",
 		"jquery": "^3.5.1",
 		"open": "^7.3.0",
