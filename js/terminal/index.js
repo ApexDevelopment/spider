@@ -10,7 +10,8 @@ function isInputKey(code) {
 }
 
 class Terminal {
-	constructor(parent) {
+	constructor(storage, parent) {
+		this.storage = storage;
 		this.tags = [ "light", "bold", "extrabold", "red", "orange", "yellow", "green", "lightblue", "blue", "darkblue", "violet" ];
 		this.inputBuffer = "";
 		this.outputBuffer = "";
@@ -27,7 +28,9 @@ class Terminal {
 		this.state = {
 			guild: null,
 			textChannel: null,
-			monitor: []
+			monitor: [],
+			lastUser: null,
+			lastChannel: null
 		};
 
 		const commandPath = path.join(__dirname, "commands");
@@ -44,11 +47,34 @@ class Terminal {
 
 		this.client.on("ready", () => {
 			this.println(`{green}Logged in as ${this.client.user.tag}.{/green}`);
-		});
+			
+			// TODO: Save monitors per bot user
+			storage.get(this.client.user.id.toString(), (err, data) => {
+				if (!err && data && data.monitor) {
+					let names = [];
 
+					for (let id of data.monitor) {
+						let channel = this.client.channels.resolve(id);
+	
+						if (channel != null && channel != undefined) {
+							this.state.monitor.push(id);
+							names.push(channel.name);
+						}
+					}
+
+					this.println(`Monitoring {green}${names.join("{/green}, {green}")}{/green}.`);
+				}
+			});
+		});
+		
 		this.client.on("message", (msg) => {
-			if (this.state.monitor.hasOwnProperty(msg.channel.id) || this.state.textChannel.id === msg.channel.id) {
-				this.println(`{green}${msg.guild.name}>${msg.channel.name}{/green} ${formatMessage(msg)}`);
+			if (this.state.monitor.includes(msg.channel.id) || (this.state.textChannel && this.state.textChannel.id === msg.channel.id)) {
+				const showMeta = msg.author.id !== this.lastUser || msg.channel.id !== this.lastChannel;
+				let line = formatMessage(msg, showMeta);
+				if (showMeta) line = `{green}${msg.guild.name}>${msg.channel.name}{/green} ` + line;
+				this.println(line);
+				this.lastUser = msg.attachments.size > 0 ? null : msg.author.id;
+				this.lastChannel = msg.channel.id;
 			}
 		});
 
@@ -61,7 +87,7 @@ class Terminal {
 	}
 
 	focus() {
-		this.input.focus();
+		this.input.focus({preventScroll:true});
 	}
 
 	update() {
@@ -83,6 +109,14 @@ class Terminal {
 			let end = new RegExp("{/color}", "g");
 			str = str.replace(start, "<span style=\"color:$1;\">");
 			str = str.replace(end, "</span>");
+		}
+
+		// Links
+		{
+			let start = new RegExp("{link=(.+?)}", "g");
+			let end = new RegExp("{/link}", "g");
+			str = str.replace(start, "<a target=\"_blank\" href=\"$1\">");
+			str = str.replace(end, "</a>");
 		}
 
 		// Normal tags
@@ -111,6 +145,9 @@ class Terminal {
 	}
 
 	dispatch() {
+		this.lastUser = null;
+		this.lastChannel = null;
+
 		let splitLine = this.inputBuffer.split(" ");
 		let cmd = splitLine.shift();
 
@@ -124,7 +161,8 @@ class Terminal {
 				this.commands[cmd].run(this, splitLine);
 			}
 			catch (err) {
-				this.println("{orange}An error occurred:\n" + err + "{/orange}\n");
+				console.error(err);
+				this.println(`{orange}An error occurred:\n${err}\nPlease {link=https://github.com/apexdevelopment/spider/issues}report this error{/link}.{/orange}`);
 			}
 		}
 		else {

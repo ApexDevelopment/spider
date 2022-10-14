@@ -11,4 +11,7 @@ Ensure all dependencies are installed and run ``npm run build`` to build it for 
 # To Do
 - [ ] Finish implementing the role command
 - [ ] Add support for using the up/down arrow keys for command history
-- [ ] Add commands for monitoring other events (maybe modify ``monitor``)
+- [ ] Add commands for monitoring other events such as users going online, message edits, etc (maybe modify ``monitor``)
+- [ ] Add command for checking who's lurking, using status and typing indicators
+- [ ] Add command similar to monitor except it logs to a file instead of the console
+- [ ] Add auto export/autolog feature

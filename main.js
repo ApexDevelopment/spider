@@ -1,5 +1,6 @@
 /* jshint esversion: 6 */
 
+const open = require("open");
 const { app, BrowserWindow } = require("electron");
 const nord = require("./js/nord.js");
 
@@ -16,10 +17,21 @@ function createWindow() {
 		}
 	});
 
+	window.webContents.on("new-window", (e, url) => {
+		e.preventDefault();
+		open(url);
+	});
+
 	window.loadFile("index.html");
 }
 
-app.whenReady().then(createWindow);
+/**
+ * This app will never navigate away from index.html, so it's safe to disable
+ * this override even though Spider relies on non-context-aware native modules.
+ * It won't have any effect on this app, but I like flipping switches and
+ * pressing buttons so sue me
+ */
+app.allowRendererProcessReuse = true;
 
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") {
@@ -32,3 +44,5 @@ app.on("activate", () => {
 		createWindow();
 	}
 });
+
+app.whenReady().then(createWindow);

@@ -13,7 +13,7 @@ module.exports = {
 	usage: "<create|delete|edit|grant|revoke> <options>",
 	description: "Allows creating/deleting/modifying roles as well as granting or revoking them.",
 	more: [
-		"This command is used for managing a guild's roles and executing {green}role{/green} on its own does nothing.",
+		"This command is used for managing a guild's roles. Executing {green}role{/green} on its own does nothing.",
 		"It requires the bot user to have the MANAGE_ROLES permission for the guild (or ADMINISTRATOR).",
 		"Just like a user, the bot cannot modify, grant, or revoke its own highest role or roles that have a higher priority than its own highest role."
 	],
