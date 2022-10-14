@@ -14,13 +14,16 @@ module.exports = {
 			out += "Available channels:\n";
 
 			let copy = spider.state.guild.channels.cache.clone();
-			let [categories, loose] = copy.partition(channel => channel.type == "category");
+			let [categories, loose] = copy.partition(channel => channel.type == "GUILD_CATEGORY");
 			loose.sweep(channel => channel.parent != null && channel.parent != undefined);
 
 			categories.sort((channelA, channelB) => channelA.name.localeCompare(channelB.name));
 			loose.sort((channelA, channelB) => channelA.name.localeCompare(channelB.name));
 
-			out += `{lightblue}<NO CATEGORY>{/lightblue}\n`;
+			// Only print uncategorized label if there are uncategorized channels to see
+			if (loose.size > 0) {
+				out += `{lightblue}<Uncategorized>{/lightblue}\n`;
+			}
 			
 			loose.each((channel, id) => {
 				out += `${channel.name} {green}[${id}]{/green}\n`;

@@ -50,6 +50,9 @@ module.exports = {
 			if (!channel) {
 				spider.println(`{orange}No channel found with name or ID '${loc}'{/orange}`);
 			}
+			else if (channel.type == "GUILD_CATEGORY") {
+				spider.println(`{orange}Cannot cd into a category (though this may change in the future).{/orange}`);
+			}
 			else {
 				spider.state.textChannel = channel;
 			}
