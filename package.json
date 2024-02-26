@@ -31,8 +31,8 @@
 		"zlib-sync": "^0.1.6"
 	},
 	"devDependencies": {
-		"electron": "^23.3.13",
-		"electron-packager": "^16.0.0"
+		"electron": "^29.0.1",
+		"electron-packager": "^17.1.2"
 	},
 	"engines": {
 		"node": ">=16.9.0"
