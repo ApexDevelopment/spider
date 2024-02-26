@@ -10,6 +10,7 @@ Ensure all dependencies are installed and run ``npm run build`` to build it for 
 
 # To Do
 - [ ] Finish implementing the role command
+- [ ] Add options to the ``login`` command to allow declaring additional intents
 - [ ] Add support for using the up/down arrow keys for command history
 - [ ] Add commands for monitoring other events such as users going online, message edits, etc (maybe modify ``monitor``)
 - [ ] Add command for checking who's lurking, using status and typing indicators
