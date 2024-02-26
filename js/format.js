@@ -8,7 +8,7 @@ module.exports = {
 	formatMessage: function(message, includeMetadata = true, rich = true) {
 		const date = message.createdAt;
 		let nordColor = `#${color.toNordPalette(message.member.displayHexColor, true)}`;
-		let formatted = `${message.cleanContent}`;
+		let formatted = `${message.cleanContent ? message.cleanContent : "<Message Content intent not granted>"}`;
 
 		if (message.attachments.size > 0) {
 			formatted += `\n${rich ? `{color=#${nord[7]}}` : ""}<Attachments>${rich ? "{/color}" : ""}`;

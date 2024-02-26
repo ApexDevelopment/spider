@@ -2,7 +2,7 @@
 /* global document, navigator */
 
 let path = require("path");
-let Client = require("discord.js").Client;
+const { Client, GatewayIntentBits, Partials } = require("discord.js");
 let { formatMessage } = require("../format.js");
 
 function isInputKey(code) {
@@ -24,16 +24,15 @@ class Terminal {
 		parent.appendChild(this.input);
 		this.focus();
 		this.client = new Client({ intents: [
-				"GUILDS",
-				"GUILD_BANS",
-				"GUILD_MESSAGES",
-				"GUILD_MESSAGE_REACTIONS",
-				"GUILD_MESSAGE_TYPING",
-				"DIRECT_MESSAGES",
-				"DIRECT_MESSAGE_REACTIONS",
-				"DIRECT_MESSAGE_TYPING"
-			]
-		});
+			GatewayIntentBits.Guilds,
+			GatewayIntentBits.GuildInvites,
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.GuildMessageReactions,
+			GatewayIntentBits.GuildMessageTyping,
+			GatewayIntentBits.DirectMessages,
+			GatewayIntentBits.DirectMessageReactions,
+			GatewayIntentBits.DirectMessageTyping
+		]});
 
 		/**
 		 * Electron has deprecated the remote module, which breaks electron-json-storage.
@@ -157,7 +156,7 @@ class Terminal {
 		this.update();
 	}
 
-	println(str) {
+	println(str = "") {
 		this.print(str + "\n");
 	}
 

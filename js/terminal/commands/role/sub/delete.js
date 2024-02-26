@@ -23,7 +23,7 @@ module.exports = {
 
 		let guild = spider.state.guild;
 
-		if (!guild.me || !guild.me.hasPermission("MANAGE_ROLES", { checkAdmin: true })) {
+		if (!guild.members.me || !guild.members.me.hasPermission("MANAGE_ROLES", { checkAdmin: true })) {
 			spider.println("{orange}Insufficient permissions.{/orange}");
 			return;
 		}
@@ -31,7 +31,7 @@ module.exports = {
 		let role = args.shift();
 		let reason = args.length > 0 ? args.join(" ") : "Executed from Spider console.";
 
-		guild.roles.fetch(role, false).then((r) => {
+		guild.roles.fetch(role).then((r) => {
 			r.delete(reason).then(() => {
 				spider.println("{green}Role successfully deleted!{/green}");
 			}).catch((err) => {

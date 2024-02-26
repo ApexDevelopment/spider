@@ -1,5 +1,7 @@
 /* jshint esversion: 6 */
 
+const { ChannelType } = require("discord.js");
+
 module.exports = {
 	usage: "",
 	description: "Lists accessible guilds/channels from the current location.",
@@ -14,7 +16,7 @@ module.exports = {
 			out += "Available channels:\n";
 
 			let copy = spider.state.guild.channels.cache.clone();
-			let [categories, loose] = copy.partition(channel => channel.type == "GUILD_CATEGORY");
+			let [categories, loose] = copy.partition(channel => channel.type == ChannelType.GuildCategory);
 			loose.sweep(channel => channel.parent != null && channel.parent != undefined);
 
 			categories.sort((channelA, channelB) => channelA.name.localeCompare(channelB.name));
@@ -31,7 +33,7 @@ module.exports = {
 			
 			categories.each((cat) => {
 				out += `\n{lightblue}<${cat.name}>{/lightblue}\n`;
-				cat.children.each((channel, id) => {
+				cat.children.cache.each((channel, id) => {
 					out += `${channel.name} {green}[${id}]{/green}\n`;
 				});
 			});

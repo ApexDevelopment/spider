@@ -28,7 +28,7 @@ module.exports = {
 
 		let guild = spider.state.guild;
 
-		if (!guild.me || !guild.me.hasPermission("MANAGE_ROLES", { checkAdmin: true })) {
+		if (!guild.members.me || !guild.members.me.hasPermission("MANAGE_ROLES", { checkAdmin: true })) {
 			spider.println("{orange}Insufficient permissions.{/orange}");
 			return;
 		}
